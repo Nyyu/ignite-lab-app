@@ -1,6 +1,11 @@
+import { Link, useParams } from "react-router-dom"
+
 import { CheckCircle, Lock } from "phosphor-react"
+
 import { isPast, format } from "date-fns"
 import ptBR from "date-fns/locale/pt-BR"
+
+import classNames from 'classnames'
 
 interface LessonProps {
     title: string
@@ -11,6 +16,7 @@ interface LessonProps {
 
 export const Lesson = ({ title, slug, availableAt, type }: LessonProps) => {
     const isLessonAvailable: boolean = isPast(availableAt)
+    const { slug: linkSlug } = useParams<{ slug: string }>()
     const availableDateFormatted = format(
         availableAt,
         "EEEE' • 'd' de 'MMMM' • 'k'h'mm",
@@ -19,13 +25,20 @@ export const Lesson = ({ title, slug, availableAt, type }: LessonProps) => {
         }
     )
 
+    const isActive = slug === linkSlug
+
     return (
-        <a href="#">
+        <Link to={`/event/lesson/${slug}`} className={`group`}>
             <span className="text-gray-300">{availableDateFormatted}</span>
-            <div className="rounded border border-gray-500 p-4 mt-2">
+            <div className={classNames('rounded border border-gray-500 p-4 mt-2 group-hover:border-green-500', {
+                "bg-green-500": isActive
+            })}>
                 <header className="flex items-center justify-between">
                     {isLessonAvailable ? (
-                        <span className="text-sm text-blue-500 font-medium flex items-center gap-2">
+                        <span className={classNames("text-sm font-medium flex items-center gap-2", {
+                            "text-white": isActive,
+                            "text-blue-500": !isActive
+                        })}>
                             <CheckCircle size={20} />
                             Counteúdo liberado
                         </span>
@@ -35,12 +48,18 @@ export const Lesson = ({ title, slug, availableAt, type }: LessonProps) => {
                             Em breve
                         </span>
                     )}
-                    <span className="text-xs rounded px-2 py-[0.125rem] text-white border border-green-300 font-bold">
+                    <span className={classNames("text-xs rounded px-2 py-[0.125rem] text-white border font-bold", {
+                        "border-green-300": !isActive,
+                        "border-white": isActive
+                    })}>
                         {type === "live" ? "AO VIVO" : "AULA PRÁTICA"}
                     </span>
                 </header>
-                <strong className="block text-grey-200 mt-5">{title}</strong>
+                <strong className={classNames("block mt-5", {
+                    "text-grey-200": !isActive,
+                    "text-white": isActive,
+                })}>{title}</strong>
             </div>
-        </a>
+        </Link>
     )
 }

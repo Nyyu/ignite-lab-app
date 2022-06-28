@@ -82,7 +82,7 @@ export const Subscribe = () => {
                     </form>
                 </div>
             </div>
-            <img src="src/assets/code-mockup.png" alt="code mockup" className='mt-10' />
+            <img src="/public/assets/code-mockup.png" alt="code mockup" className='mt-10' />
         </div>
     )
 }

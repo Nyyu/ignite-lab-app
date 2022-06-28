@@ -1,9 +1,10 @@
-import { Logo } from '../components/Logo'
 import React, { ChangeEvent, FormEvent, FormEventHandler, useState } from 'react'
 import { gql, useMutation } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
-import { Gear } from 'phosphor-react'
 import { useCreateSubscriberMutation } from '../graphql/generated'
+
+import { Gear } from 'phosphor-react'
+import { Logo } from '../components/Logo'
 
 interface FormData {
     name: string
@@ -82,7 +83,7 @@ export const Subscribe = () => {
                     </form>
                 </div>
             </div>
-            <img src="/public/assets/code-mockup.png" alt="code mockup" className='mt-10' />
+            <img src={new URL(`../assets/code-mockup.png`, import.meta.url).href} alt="code mockup" className='mt-10' />
         </div>
     )
 }

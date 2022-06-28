@@ -3,14 +3,7 @@ import React, { ChangeEvent, FormEvent, FormEventHandler, useState } from 'react
 import { gql, useMutation } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
 import { Gear } from 'phosphor-react'
-
-const CREATE_SUBSCRIBER = gql`
-    mutation CreateSubscriber ($name: String!, $email: String!) {
-        createSubscriber(data: {name: $name, email: $email}) {
-            id
-        }
-    }
-`
+import { useCreateSubscriberMutation } from '../graphql/generated'
 
 interface FormData {
     name: string
@@ -19,7 +12,7 @@ interface FormData {
 
 export const Subscribe = () => {
     const nav = useNavigate()
-    const [createSubscriber, { loading }] = useMutation<FormData>(CREATE_SUBSCRIBER)
+    const [createSubscriber, { loading }] = useCreateSubscriberMutation()
     const [form, setForm] = useState<FormData>({
         name: "",
         email: ""
@@ -89,7 +82,7 @@ export const Subscribe = () => {
                     </form>
                 </div>
             </div>
-            <img src="/src/assets/code-mockup.png" alt="code mockup" className='mt-10' />
+            <img src="src/assets/code-mockup.png" alt="code mockup" className='mt-10' />
         </div>
     )
 }
